@@ -1,10 +1,9 @@
 const dotenv = require('dotenv');
 dotenv.config()
 
+// Exporting the environment variables
 module.exports = {
-    apiUrl: process.env.API_URL,
-    masterKey: process.env.API_KEY,
-    port: process.env.PORT,
-    mongoUrl: process.env.MONGO_URL,
-    endpoint: process.env.API_ENDPOINT
+    apiUrl  : process.env.API_URL,
+    port    : process.env.PORT,
+    mongoUrl: process.env.MONGO_URL
 };
