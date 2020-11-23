@@ -1,5 +1,6 @@
-const express   = require('express');
-const router    = express.Router();
+const express       = require('express');
+const router        = express.Router();
+const urlController = require('../controllers/urlController'); // Retrieving the controller
 
 /**
  * Retrieves the original URL from a shorted URL
@@ -8,8 +9,11 @@ const router    = express.Router();
  * @returns JSON response with the search result
  */
 router.get('/:shortUrlCode', (req, res) => {
-    res.status(200).json({
-        message: 'URL for getting a shorted URL'
+    urlController.getFullUrl((rm) => {
+        res.status(rm.statusCode).json({
+            message: rm.message,
+            data: rm.data
+        });
     });
 });
 
@@ -20,8 +24,11 @@ router.get('/:shortUrlCode', (req, res) => {
  * @returns JSON response with the insert result
  */
 router.post('/', (req, res) => {
-    res.status(200).json({
-        message: 'URL for creating a shorted URL'
+    urlController.createShortUrl((rm) => {
+        res.status(rm.statusCode).json({
+            message: rm.message,
+            data: rm.data
+        });
     });
 });
 
