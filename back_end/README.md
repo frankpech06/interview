@@ -42,7 +42,8 @@ INSTALLATION
 Configurable parameters:
  * <PORT_TO_USE>: Port where the server will be listen. Example: 8000
  , 8080. Type: String.
- * <SERVER_URL>: URL where the project is running. Example: http://localhost, 
+ * <SERVER_URL>: URL where the project is running, example: http://localhost. Note: At this moment, 
+ if <PORT_TO_USE> is distinct to 80, it must be specified in this parameter, example:
  http://localhost:8000. Type: String.
  * <DB_USER>: Username to connect to the database. Type: String.
  * <DB_PASSWORD>: Password to connect to the database. Type: String. 
