@@ -58,14 +58,23 @@ router.post('/', (req, res) => {
 router.post('/bulk', upload.single('links'), (req, res) => {
     // Getting the text file from the request
     let textFile = req.file;
+    let download = req.body.download;
 
     // Calling to the controller
     urlController.bulkCreateShortUrls(textFile, (rm) => {
-        // Returning the result
-        res.status(rm.statusCode).json({
-            message: rm.message,
-            data: rm.data
-        });
+        if (download == 1){
+            // If the download variable is equal to 1, the result is exported in a txt file
+            let textContent = rm.data['shortUrls'].join('\r\n');
+            res.setHeader('Content-type', 'application/octet-stream');
+            res.setHeader('Content-disposition', 'attachment; filename=file.txt');
+            res.send(new Buffer.from(textContent, encoding="utf8"));
+        }else{
+            // Sending the result
+            res.status(rm.statusCode).json({
+                message: rm.message,
+                data: rm.data
+            });
+        }
     });
 });
 
