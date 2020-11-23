@@ -3,4 +3,5 @@ const app       = require('./app');
 const { port }  = require('./config');
 const server    = http.createServer(app);
 
+// Initializing the server
 server.listen(port);

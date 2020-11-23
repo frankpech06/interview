@@ -17,6 +17,25 @@ const initializeDatabase = async () => {
     }
 }
 
+/**
+ * Method that enables CORS
+ * @param  {Request}    req : Represents the HTTP request and has the properties for the request
+ * @param  {Response}   res : Represents the HTTP response that an Express app sends when it gets an HTTP request
+ * @param  {Function}   next: Function to execute after the process is complete
+ */
+const enableCors = async (req, res, next) => {
+    // Adding the headers to the response
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if (req.method == "OPTIONS"){
+        res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+        return res.status(200).json({});
+    }
+
+    next();
+}
+
 module.exports = {
-    initializeDatabase:initializeDatabase
+    initializeDatabase:initializeDatabase,
+    enableCors:enableCors
 }

@@ -13,6 +13,9 @@ config.initializeDatabase()
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+// Enabling CORS
+app.use(config.enableCors);
+
 // Setting the routes
 app.use('/url', urlRoutes);
  
