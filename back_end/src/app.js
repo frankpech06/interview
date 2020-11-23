@@ -8,7 +8,7 @@ const urlRoutes = require('./api/routes/urlRoutes'); // Retrieving the URL's rou
 const app = express();
 
 // Starting the database connection
-config.initializeDatabase()
+config.initializeDatabase();
 
 // Setting the middlewares
 app.use(bodyParser.urlencoded({extended:false}));
