@@ -1,11 +1,10 @@
 const express   = require('express');
-const app       = express();
- 
-// routes
-app.use((req, res, next) => {
-    res.status(200).json({
-        message: 'Hello world!!!'
-    });
-});
+const urlRoutes = require('./api/routes/urlRoutes'); // Retrieving the URL's routes
+
+//Starting the app
+const app = express();
+
+// Setting the routes
+app.use('/url', urlRoutes);
  
 module.exports = app;
