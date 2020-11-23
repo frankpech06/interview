@@ -18,7 +18,7 @@ const getFullShortedUrl = (urlCode) => {
 
 /**
  * Method that retrieves all the shorted URLs stored in the database
- * @param  {Function}   next    : Function to execute after the database searching
+ * @param {Function} next: Function to execute after the database searching
  */
 const getAllUrls = async (next) => {
     let rm      = new ResponseModel();  // Object to store the response data
@@ -51,7 +51,7 @@ const getAllUrls = async (next) => {
 }
 
 /**
- * Method that retrieves an original URL from the database to redirect the response
+ * Method that retrieves an original URL from the database
  * @param  {string}     urlCode : Short URL code to get the original URL
  * @param  {Function}   next    : Function to execute after the database searching
  */
@@ -100,7 +100,7 @@ const createShortUrl = async (longUrl, next) => {
     }
     
     if(!rm.error){
-        // Checking if the URL was previously added
+        // Checking if the URL was previously added into the database
         urlObject = await Url.findOne({originalUrl: longUrl});
         if (urlObject){
             // If the URL was added before, the short URL is returned
@@ -141,7 +141,7 @@ const createShortUrl = async (longUrl, next) => {
 }
 
 /**
- * Method that creates a short URL for the contained URL's in a text file
+ * Method that creates a short URL for the contained URLs in a text file
  * @param  {File}       textFile: File where the urls to short are
  * @param  {Function}   next    : Function to execute after the short URL creation
  */

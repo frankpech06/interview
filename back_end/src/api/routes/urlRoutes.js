@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 });
 
 /**
- * Retrieves the original URL from a shorted URL
+ * Retrieves the original URL from a shorted URL for redirect
  * @param  {Request}    req: Represents the HTTP request and has the properties for the request
  * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request
  * @returns JSON response with the search result
