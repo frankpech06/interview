@@ -3,9 +3,9 @@ const router    = express.Router();
 
 /**
  * Retrieves the original URL from a shorted URL
- * @param  {Request} req
- * @param  {Response} res
- * @returns JSON object with the search result
+ * @param  {Request}    req: Represents the HTTP request and has the properties for the request
+ * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request
+ * @returns JSON response with the search result
  */
 router.get('/:shortUrlCode', (req, res) => {
     res.status(200).json({
@@ -15,9 +15,9 @@ router.get('/:shortUrlCode', (req, res) => {
 
 /**
  * Creates a short URL for a received link
- * @param  {Request} req
- * @param  {Response} res
- * @returns JSON object with the insert result
+ * @param  {Request}    req: Represents the HTTP request and has the properties for the request
+ * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request
+ * @returns JSON response with the insert result
  */
 router.post('/', (req, res) => {
     res.status(200).json({
