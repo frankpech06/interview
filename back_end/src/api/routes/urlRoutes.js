@@ -5,6 +5,23 @@ const urlController = require('../controllers/urlController'); // Retrieving the
 const upload        = multer({storage: multer.memoryStorage()});
 
 /**
+ * Returns the stored URLs in the database and their short version
+ * @param  {Request}    req: Represents the HTTP request and has the properties for the request
+ * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request
+ * @returns JSON response with the insert result
+ */
+router.get('/', (req, res) => {
+    // Calling to the controller
+    urlController.getAllUrls((rm) => {
+        // Returning the result
+        res.status(rm.statusCode).json({
+            message: rm.message,
+            data: rm.data
+        });
+    });
+});
+
+/**
  * Retrieves the original URL from a shorted URL
  * @param  {Request}    req: Represents the HTTP request and has the properties for the request
  * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request

@@ -17,6 +17,40 @@ const getFullShortedUrl = (urlCode) => {
 }
 
 /**
+ * Method that retrieves all the shorted URLs stored in the database
+ * @param  {Function}   next    : Function to execute after the database searching
+ */
+const getAllUrls = async (next) => {
+    let rm      = new ResponseModel();  // Object to store the response data
+    let urlsInDb= null;                 // Variable where the URLs in the database will be stored
+    let urls    = [];                   // Array where the URLs to return will be stored
+
+    try{
+        // Trying to retrieve the URLs in the database
+        urlsInDb = await Url.find();
+        
+        // If there is any URL:
+        if (urlsInDb){
+            // Loop over each URL to extract the relevant data
+            urlsInDb.forEach( (urlData) => { 
+                urls.push({longUrl: urlData.originalUrl, shortUrl: getFullShortedUrl(urlData.shortUrlCode)})
+            });
+        }
+        
+        // Storing the shorted URLs
+        rm.data['urls'] = urls;
+        
+    }catch(err){
+        // If there is any error, an error is returned
+        rm.error        = true;
+        rm.message      = "Urls not found.";
+        rm.statusCode   = 404;
+    }
+
+    return next(rm);
+}
+
+/**
  * Method that retrieves an original URL from the database to redirect the response
  * @param  {string}     urlCode : Short URL code to get the original URL
  * @param  {Function}   next    : Function to execute after the database searching
@@ -141,6 +175,7 @@ const bulkCreateShortUrls = async (textFile, next) => {
 }
 
 module.exports = {
+    getAllUrls:getAllUrls,
     getFullUrl:getFullUrl,
     createShortUrl:createShortUrl,
     bulkCreateShortUrls:bulkCreateShortUrls
