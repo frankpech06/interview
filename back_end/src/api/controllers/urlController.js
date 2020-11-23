@@ -44,7 +44,7 @@ const getFullUrl = async (urlCode, next) => {
         rm.statusCode   = 404;
     }
     
-    next(rm);
+    return next(rm);
 }
 
 /**
@@ -106,7 +106,42 @@ const createShortUrl = async (longUrl, next) => {
     return (next != null) ? next(rm) : rm;
 }
 
+/**
+ * Method that creates a short URL for the contained URL's in a text file
+ * @param  {File}       textFile: File where the urls to short are
+ * @param  {Function}   next    : Function to execute after the short URL creation
+ */
+const bulkCreateShortUrls = async (textFile, next) => {
+    let data        = (textFile.buffer + '').split('\n');   // Array that contains the whole lines in the file
+    var rm          = null;                                 // ResponseModel data to catch each shorted URL
+    let shortUrls   = [];                                   // Array that will contain all shorted URL
+    let upperRm     = new ResponseModel()                   // Object to store the final response data
+
+    // Loop over each text file in data
+    for(let index in data){
+        // Cleaning the url
+        cleanedUrl = data[index].replace(/\n|\r/g, "");
+
+        // Trying to short the URL
+        rm = await createShortUrl(cleanedUrl, null);
+        if(!rm.error){
+            // If there is not an error, the shorted URL is stored in the array
+            shortUrls.push(rm.data['urlResponse']);
+        }
+    }
+
+    // If the number of shorted URLs is different to the number of lines, an error is sent
+    if (shortUrls.length != data.length){
+        upperRm.error = true;
+        upperRm.message = "An error occurred when creating the short urls.";
+    }
+
+    upperRm.data['shortUrls'] = shortUrls;
+    return next(upperRm);
+}
+
 module.exports = {
     getFullUrl:getFullUrl,
-    createShortUrl:createShortUrl   
+    createShortUrl:createShortUrl,
+    bulkCreateShortUrls:bulkCreateShortUrls
 }

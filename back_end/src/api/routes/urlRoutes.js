@@ -1,6 +1,8 @@
 const express       = require('express');
+const multer        = require('multer');
 const router        = express.Router();
 const urlController = require('../controllers/urlController'); // Retrieving the controller
+const upload        = multer({storage: multer.memoryStorage()});
 
 /**
  * Retrieves the original URL from a shorted URL
@@ -39,6 +41,26 @@ router.post('/', (req, res) => {
 
     // Calling to the controller
     urlController.createShortUrl(longUrl, (rm) => {
+        // Returning the result
+        res.status(rm.statusCode).json({
+            message: rm.message,
+            data: rm.data
+        });
+    });
+});
+
+/**
+ * Creates a short URL for each link in a text file
+ * @param  {Request}    req: Represents the HTTP request and has the properties for the request
+ * @param  {Response}   res: Represents the HTTP response that an Express app sends when it gets an HTTP request
+ * @returns JSON response with the insert result
+ */
+router.post('/bulk', upload.single('links'), (req, res) => {
+    // Getting the text file from the request
+    let textFile = req.file;
+
+    // Calling to the controller
+    urlController.bulkCreateShortUrls(textFile, (rm) => {
         // Returning the result
         res.status(rm.statusCode).json({
             message: rm.message,
