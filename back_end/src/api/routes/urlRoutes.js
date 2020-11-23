@@ -34,7 +34,12 @@ router.get('/:shortUrlCode', (req, res) => {
  * @returns JSON response with the insert result
  */
 router.post('/', (req, res) => {
-    urlController.createShortUrl((rm) => {
+    // Getting the URL from the request body
+    let longUrl = req.body.url;
+
+    // Calling to the controller
+    urlController.createShortUrl(longUrl, (rm) => {
+        // Returning the result
         res.status(rm.statusCode).json({
             message: rm.message,
             data: rm.data
